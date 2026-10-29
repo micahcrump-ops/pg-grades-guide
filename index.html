@@ -31,8 +31,18 @@
   .note { font-size: 0.85rem; color: #666; font-style: italic; margin-top: 10px; }
   .lexicon-term { margin: 12px 0; }
   .lexicon-term .term { font-weight: 700; color: #2c3e2d; }
-  .grade-photo { width: 100%; border-radius: 8px; margin: 10px 0 4px; display: block; }
+  .grade-photo { width: 100%;
+  #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 9999; justify-content: center; align-items: center; padding: 12px; }
+  #lightbox.open { display: flex; }
+  #lightbox img { max-width: 100%; max-height: 100%; border-radius: 6px; object-fit: contain; }
+  #lightbox .close-hint { position: absolute; bottom: 18px; left: 0; right: 0; text-align: center; color: rgba(255,255,255,0.7); font-size: 0.85rem; }
+ border-radius: 8px; margin: 10px 0 4px; display: block; }
   .photo-caption { font-size: 0.8rem; color: #777; text-align: center; margin-bottom: 8px; }
+  #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 9999; justify-content: center; align-items: center; padding: 12px; }
+  #lightbox.open { display: flex; }
+  #lightbox img { max-width: 100%; max-height: 100%; border-radius: 6px; object-fit: contain; }
+  #lightbox .close-hint { position: absolute; bottom: 18px; left: 0; right: 0; text-align: center; color: rgba(255,255,255,0.7); font-size: 0.85rem; }
+  .grade-photo { cursor: zoom-in; }
   footer { text-align: center; padding: 24px 20px; font-size: 0.85rem; color: #777; }
   footer a { color: #2c3e2d; }
   .pdf-link { display: block; text-align: center; margin: 20px 0; padding: 14px; background: #2c3e2d; color: #fff; border-radius: 10px; text-decoration: none; font-weight: 600; }
@@ -292,5 +302,26 @@ This is a condensed phone-friendly reference. For the Unique Collection product 
   PG Flooring grades &bull; condensed for field reference<br>
   Sparkle Floors and Carpet &bull; (908) 464-2653
 </footer>
+
+<div id="lightbox"><img id="lightbox-img" src="" alt=""><div class="close-hint">Tap to close</div></div>
+<script>
+(function() {
+  var lb = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lightbox-img');
+  document.querySelectorAll('.grade-photo').forEach(function(img) {
+    img.addEventListener('click', function(e) {
+      e.stopPropagation();
+      lbImg.src = img.src;
+      lbImg.alt = img.alt;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  lb.addEventListener('click', function() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+})();
+</script>
 </body>
 </html>
